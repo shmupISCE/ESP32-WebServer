@@ -7,6 +7,8 @@ const char *ssid = "Srdjan";
 const char *password = "milkic123";
 AsyncWebServer server(80);
 
+String direction;
+
 void setup() {
   Serial.begin(115200);
 
@@ -30,7 +32,7 @@ void setup() {
 
   server.on("/control", HTTP_GET, [](AsyncWebServerRequest *request){
     if (request->hasParam("direction")) {
-      String direction = request->getParam("direction")->value();
+      direction = request->getParam("direction")->value();
       Serial.println("Received Direction: " + direction);
       request->send(200, "text/plain", "Received Direction: " + direction);
     } else {
@@ -47,7 +49,27 @@ void setup() {
 
   // Start server
   server.begin();
+
+  pinMode(23, OUTPUT);
+  pinMode(22, OUTPUT);
 }
+
+
 void loop() {
-  // Nothing to do here
+  // Testing with LED on breadboard (SUCCESS)
+  if(direction == "move_forward"){
+    digitalWrite(23, 1);
+    digitalWrite(22, 0);
+
+  } 
+  
+  if(direction == "move_backward"){
+    digitalWrite(23, 0);
+    digitalWrite(22, 1);
+
+  }else{
+    digitalWrite(23, 0);
+    digitalWrite(22, 0);
+  }
+
 }

@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
         statusText.textContent = 'Turning Right';
         sendCommand('turn_right');
     });
-
+    
+    // Check which key is pressed and send the event to the ESP32
     window.addEventListener('keydown', function (event) {
         let direction = '';
         switch (event.key) {
@@ -79,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+
+    // Clear debug console 
     document.getElementById('clearConsole').addEventListener('click', function () {
         clearDebugConsole();
     });
