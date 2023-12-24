@@ -7,36 +7,47 @@ const char *ssid = "Srdjan";
 const char *password = "milkic123";
 AsyncWebServer server(80);
 
-
-void setup()
-{
+void setup() {
   Serial.begin(115200);
 
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED)
-  {
+  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to WiFi");
 
-  // Route to handle the Hello request
-  server.on("/send-hello", HTTP_POST, [](AsyncWebServerRequest *request) {
-    Serial.println("Received Hello from the web page");
+  // Define CORS headers
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
 
-    // Respond to the web page
-    AsyncWebServerResponse *response = request->beginResponse(200, "text/plain", "Hello received successfully!");
-    response->addHeader("Access-Control-Allow-Origin", "*");
-    response->addHeader("Content-Type", "text/plain");
-    request->send(response);
+  // Define server routes
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "text/plain", "Hello, ESP32!");
   });
 
-  // Serve the HTML file
-  server.serveStatic("/", SPIFFS, "/").setDefaultFile("index.html");
+  server.on("/control", HTTP_GET, [](AsyncWebServerRequest *request){
+    if (request->hasParam("direction")) {
+      String direction = request->getParam("direction")->value();
+      Serial.println("Received Direction: " + direction);
+      request->send(200, "text/plain", "Received Direction: " + direction);
+    } else {
+      Serial.println("Error: Missing direction parameter");
+      request->send(400, "text/plain", "Missing direction parameter");
+    }
+  });
+
+  // Generic error handling
+  server.onNotFound([](AsyncWebServerRequest *request){
+    Serial.println("Error: Page not found");
+    request->send(404, "text/plain", "Not Found");
+  });
 
   // Start server
   server.begin();
 }
-
-void loop() {}
+void loop() {
+  // Nothing to do here
+}

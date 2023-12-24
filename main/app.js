@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const debugConsole = document.getElementById('debug-console');
     const statusText = document.getElementById('status-text');
 
-    // Function to get the current timestamp
     function getTimestamp() {
         const now = new Date();
         const hours = now.getHours().toString().padStart(2, '0');
@@ -11,76 +10,79 @@ document.addEventListener('DOMContentLoaded', function () {
         return `${hours}:${minutes}:${seconds}`;
     }
 
-    // Function to update the debug console with timestamps
     function updateDebugConsole(command, response) {
         const timestamp = getTimestamp();
         const message = `[${timestamp}] Sent: ${command}, Received: ${response}`;
         debugConsole.innerHTML += message + '<br>';
-        // Automatically scroll to the bottom of the debug console
         debugConsole.scrollTop = debugConsole.scrollHeight;
     }
 
-    // Function to send a command to the ESP32
     function sendCommand(command) {
-        // Add code to send the command to the ESP32 and receive a response
-        const response = 'Confirmation from ESP32'; // Replace with actual response
-        updateDebugConsole(command, response);
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `http://192.168.1.48/control?direction=${command}`, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Successful response from ESP32
+                    updateDebugConsole(command, 'Success');
+                } else {
+                    // Handle other status codes or errors
+                    updateDebugConsole(command, 'Error: ' + xhr.status);
+                }
+            }
+        };
+        xhr.send();
     }
 
-    // Button click event listeners for basic control
     document.getElementById('up').addEventListener('click', function () {
         statusText.textContent = 'Moving Forward';
-        sendCommand('Move Forward');
+        sendCommand('move_forward');
     });
 
     document.getElementById('down').addEventListener('click', function () {
         statusText.textContent = 'Moving Backward';
-        sendCommand('Move Backward');
+        sendCommand('move_backward');
     });
 
     document.getElementById('left').addEventListener('click', function () {
         statusText.textContent = 'Turning Left';
-        sendCommand('Turn Left');
+        sendCommand('turn_left');
     });
 
     document.getElementById('right').addEventListener('click', function () {
         statusText.textContent = 'Turning Right';
-        sendCommand('Turn Right');
+        sendCommand('turn_right');
     });
 
-    document.getElementById('stop').addEventListener('click', function () {
-        statusText.textContent = 'Stopped';
-        sendCommand('Stop');
-    });
-
-    // Arrow key event listener for controlling the RC car
     window.addEventListener('keydown', function (event) {
+        let direction = '';
         switch (event.key) {
             case 'ArrowUp':
+                direction = 'move_forward';
                 statusText.textContent = 'Moving Forward';
-                sendCommand('Move Forward');
                 break;
             case 'ArrowDown':
+                direction = 'move_backward';
                 statusText.textContent = 'Moving Backward';
-                sendCommand('Move Backward');
                 break;
             case 'ArrowLeft':
+                direction = 'turn_left';
                 statusText.textContent = 'Turning Left';
-                sendCommand('Turn Left');
                 break;
             case 'ArrowRight':
+                direction = 'turn_right';
                 statusText.textContent = 'Turning Right';
-                sendCommand('Turn Right');
                 break;
+        }
+        if (direction !== '') {
+            sendCommand(direction);
         }
     });
 
-    // Button click event listener for clearing the debug console
     document.getElementById('clearConsole').addEventListener('click', function () {
         clearDebugConsole();
     });
 
-    // Function to clear the debug console
     function clearDebugConsole() {
         debugConsole.innerHTML = '';
     }
