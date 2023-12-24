@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>RC Car Control</title>
+</head>
+<body>
+    <div class="container">
+        <div id="controls">
+            <button id="up" class="arrow-button">&#9650;</button>
+            <div class="horizontal-buttons">
+                <button id="left" class="arrow-button">&#9664;</button>
+                <button id="right" class="arrow-button">&#9654;</button>
+            </div>
+            <button id="down" class="arrow-button">&#9660;</button>
+            <button id="stop" class="stop-button">STOP</button>
+        </div>
+        <div id="debug">
+            <div id="debug-console"></div>
+            <button id="clearConsole" class="clear-button">Clear Console</button>
+        </div>
+        <div id="status">
+            Status: <span id="status-text">Ready</span>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh;
+    background-color: #282c35; /* Dark background for a futuristic look */
+}
+
+.container {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20%;
+    padding: 20px;
+}
+
+.arrow-button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 24px; /* Larger font size for a futuristic feel */
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%;
+}
+
+.arrow-button:hover {
+    background-color: #2980b9;
+    transform: scale(1.1);
+}
+
+.horizontal-buttons {
+    display: flex;
+}
+
+.stop-button {
+    padding: 10px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #e74c3c; /* Red for stop button */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    width: 100%;
+}
+
+.stop-button:hover {
+    background-color: #c0392b;
+    transform: scale(1.1);
+}
+
+#debug {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: #fff; /* White text for better contrast on dark background */
+    background-color: #34495e; /* Darker background for the debug console */
+    border: 1px solid #2c3e50;
+    width: 60%; /* Take up a portion of the remaining width */
+}
+
+#clearConsole {
+    margin-top: 10px; /* Add margin to create space between the button and the debug console */
+    padding: 10px;
+    background-color: #e74c3c;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+#clearConsole:hover {
+    background-color: #c0392b;
+}
+
+#debug-console {
+    flex-grow: 1;
+    padding: 10px;
+    max-height: 400px; /* Set a maximum height for the debug console */
+    overflow-y: auto; /* Enable scrollbar when content exceeds the maximum height */
+}
+
+#status {
+    padding: 20px;
+    color: #fff; /* White text for better contrast on dark background */
+    background-color: #34495e; /* Darker background for the status box */
+    border: 1px solid #2c3e50;
+    width: 20%; /* Take up the remaining width */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+}
+#container {
+    position: relative;
+}
