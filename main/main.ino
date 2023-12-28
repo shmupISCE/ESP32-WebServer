@@ -56,20 +56,20 @@ void setup() {
 
 
 void loop() {
-  // Testing with LED on breadboard (SUCCESS)
-  if(direction == "move_forward"){
-    digitalWrite(23, 1);
-    digitalWrite(22, 0);
+  if (direction == "move_forward") {
+    digitalWrite(23, HIGH);
+    digitalWrite(22, LOW);
 
-  } 
-  
-  if(direction == "move_backward"){
-    digitalWrite(23, 0);
-    digitalWrite(22, 1);
+  } else if (direction == "move_backward") {
+    digitalWrite(23, LOW);
+    digitalWrite(22, HIGH);
+    
+  } else if (direction == "stop") {
+    digitalWrite(23, LOW);
+    digitalWrite(22, LOW);
 
-  }else{
-    digitalWrite(23, 0);
-    digitalWrite(22, 0);
-  }
-
+  delay(10); // Add a small delay to avoid excessive loop execution
+  direction = "";
 }
+}
+
